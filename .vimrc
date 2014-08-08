@@ -10,6 +10,7 @@ call vundle#begin()
 
 " Vundle plugins
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'kien/ctrlp.vim'
 
 call vundle#end()
 
