@@ -1,0 +1,22 @@
+# Statusbar if tmux run in console
+set -g status-attr bright
+set -g status-right-length 50
+set -g status-left-length 50
+
+# default window title colours
+set-window-option -g window-status-fg white
+set-window-option -g window-status-bg default
+set-window-option -g window-status-attr dim
+
+# active window title colours
+set-window-option -g window-status-current-fg white
+set-window-option -g window-status-current-bg default
+set-window-option -g window-status-current-attr bright
+
+# message colours
+set -g message-fg magenta
+set -g message-bg default
+set -g message-attr bright
+
+set -g status-left "#[fg=blue] #H #[fg=black]• "
+set -g status-right "#[fg=white]%H:%M #[default] "

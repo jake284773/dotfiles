@@ -1,0 +1,116 @@
+#---------------------------------------------------------------
+# file:     ~/.tmux/conf
+# author:   jake moreman 
+# vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:fdm=indent:fdn=1:ft=conf:
+#---------------------------------------------------------------
+
+# set correct terminal
+set -g default-terminal "screen-256color"
+
+# set prefix key to ctrl+t
+unbind C-b
+set -g prefix C-t
+
+# send the prefix to nested session
+bind-key -n C-a send-prefix
+
+# set vi keys
+setw -g mode-keys vi
+unbind [
+bind Escape copy-mode
+unbind p
+bind p paste-buffer
+bind-key -T copy-mode-vi 'v' send-keys -X begin-selection
+bind-key -T copy-mode-vi 'y' send-keys -X copy-selection
+
+# more intuitive keybindings for splitting
+unbind %
+bind h split-window -v
+unbind '"'
+bind v split-window -h
+
+# pane selection
+bind Left select-pane -L
+bind Right select-pane -R
+bind Up select-pane -U
+bind Down select-pane -D
+
+# pane/window movement
+bind-key j command-prompt -p "join pane from:" "join-pane -s '%%'"
+bind-key s command-prompt -p "send pane to:" "join-pane -t '%%'"
+bind-key S command-prompt -p "swap window with:" "swap-window -t ':%%'"
+bind-key m command-prompt -p "move window to:" "move=-window -t ':%%'"
+bind-key , command-prompt -p "rename window to:" "rename-window '%%'"
+
+# quick view of processes
+bind '~' split-window "exec top"
+
+# open {tmux,mutt,vim} man page
+bind-key T neww -n "Tmux manual" "exec man tmux"
+bind-key M neww -n "Mutt manual" "exec man mutt"
+bind-key V neww -n "Vim manual" "exec vim -c 'h usermanual|only'"
+
+# open %% man page
+bind C-m command-prompt -p "Open man page for:" "new-window 'exec man %%'"
+
+# toggle last window like screen
+bind-key C-b last-window
+
+# confirm before killing a window or the server
+bind-key k confirm kill-window
+bind-key K confirm kill-server
+
+# ctrl+left/right cycles through windows
+bind-key -n C-right next
+bind-key -n C-left prev
+
+# scrollback buffer n lines
+set -g history-limit 5000
+
+# listen for activity on all windows
+set -g bell-action any
+
+# on-screen time for display-panes in ms
+set -g display-panes-time 2000
+
+# start window indexing at zero
+set -g base-index 0
+
+# ensure wm window titles
+set -g set-titles on
+
+# enable auto renaming
+setw -g automatic-rename on
+
+# wm window title string (use statusbar variables)
+set -g set-titles-string "tmux:#I [ #W ]"
+
+# toggle statusbar
+bind-key v set-option status
+
+# reload config without killing server
+bind R source-file ~/.tmux/conf\; display-message "  Config reloaded..."
+
+# border colours
+set -g pane-border-fg blue
+set -g pane-active-border-fg magenta
+set -g pane-active-border-bg default
+
+# statusbar
+set -g window-status-format "#I:#W"
+set -g window-status-current-format "#I:#W"
+
+set -g status-keys vi
+set -g status-interval 1
+set -g status-justify centre # centre align window list
+
+# default statusbar colours
+set -g status-fg white
+set -g status-bg default
+
+# bell colours
+set -g window-status-bell-bg default
+set -g window-status-bell-fg red
+set -g window-status-bell-attr bright
+
+source-file ~/.tmux/xless
